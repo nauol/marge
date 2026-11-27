@@ -1,0 +1,227 @@
+<title>Horclean chiffons</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600&display=swap">
+<style>
+/* Layout : six cadres « Ciel doux » ; chacun défile pour de vrai et un chiffon essuie la vitre au fil du défilement */
+:root {
+  --bg: #f2f8ff; --panel: #ffffff; --fg: #10324f; --muted: #557089; --line: #d6e6f5; --accent: #1c6fd8;
+  --sky: #dcefff; --font: "Sora", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0c1622; --panel: #13202e; --fg: #e4eef8; --muted: #93a8bd; --line: #22344a; --accent: #7db4ff; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #0c1622; --panel: #13202e; --fg: #e4eef8; --muted: #93a8bd; --line: #22344a; --accent: #7db4ff; color-scheme: dark }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 15px/1.6 var(--font);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px; }
+.page { max-width: 1240px; margin: 0 auto; display: grid; gap: 32px; }
+.intro { display: grid; gap: 10px; max-width: 68ch; }
+.intro h1 { margin: 0; font-weight: 300; font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.02em; text-wrap: balance; }
+.intro p { margin: 0; color: var(--muted); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap: 24px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.body { padding: 18px 20px 20px; display: grid; gap: 10px; align-content: start; }
+.head { display: flex; gap: 10px; align-items: baseline; }
+.num { color: var(--accent); font-weight: 600; }
+.card h2 { margin: 0; font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
+.card p { margin: 0; color: var(--muted); }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.play { font: 500 14px var(--font); color: var(--accent); background: none; border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; cursor: pointer; }
+.play:hover { border-color: var(--accent); }
+.play:focus-visible, .scroller:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.hint { font-size: 13px; color: var(--muted); }
+.note { color: var(--muted); font-size: 14px; max-width: 68ch; }
+
+/* ===== le cadre : un mini site Ciel doux (toujours clair) ===== */
+.frame { position: relative; aspect-ratio: 16 / 10; overflow: hidden; container-type: inline-size; background: #fff; }
+.scroller { position: absolute; inset: 0; overflow-y: auto; scrollbar-width: none; }
+.scroller::-webkit-scrollbar { display: none; }
+.site { height: 260%; background: linear-gradient(180deg, #dcefff 0%, #ffffff 40%); color: #10324f; font-family: var(--font); padding: 4cqw 5cqw; display: grid; grid-template-rows: auto 1fr auto auto; gap: 3cqw; }
+.bar { display: flex; align-items: center; gap: 2.4cqw; }
+.burger { width: 4.2cqw; height: 2.8cqw; display: grid; align-content: space-between; }
+.burger i { height: .45cqw; border-radius: 1cqw; background: currentColor; display: block; }
+.logo { font-size: 3.2cqw; font-weight: 600; letter-spacing: -0.02em; }
+.hero { align-self: start; margin-top: 8cqw; display: grid; gap: 2cqw; max-width: 64cqw; }
+.h1 { margin: 0; font-size: 6.6cqw; font-weight: 300; line-height: 1.04; letter-spacing: -0.03em; }
+.lead { margin: 0; font-size: 2.3cqw; color: #48667f; }
+.btn { justify-self: start; font-size: 2cqw; font-weight: 600; padding: 1.5cqw 3cqw; border-radius: 99cqw; background: #fff; color: #1c6fd8; box-shadow: 0 .6cqw 2cqw rgb(28 111 216 / .18); }
+.plans-h { margin: 0; font-size: 4.4cqw; font-weight: 300; letter-spacing: -0.02em; }
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2cqw; margin-bottom: 6cqw; }
+.plan { background: #fff; border-radius: 3cqw; padding: 3cqw 2cqw; text-align: center; box-shadow: 0 .4cqw 1.6cqw rgb(28 111 216 / .10); display: grid; gap: .6cqw; font-size: 2cqw; }
+.plan b { font-size: 3.4cqw; font-weight: 600; color: #1c6fd8; }
+/* la vitre : saleté (canvas) + chiffon, fixés sur le cadre, au-dessus du site qui défile */
+.glass { position: absolute; inset: 0; pointer-events: none; }
+.glass canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cloth { position: absolute; left: 0; top: 0; width: 22cqw; will-change: transform; filter: drop-shadow(0 1.2cqw 1.4cqw rgb(16 50 79 / .28)); }
+.cloth svg { display: block; width: 100%; height: auto; }
+.f6 .cloth { width: 104cqw; }
+</style>
+
+<div class="page">
+  <header class="intro">
+    <h1>Horclean, style Ciel doux : six façons d’essuyer la vitre</h1>
+    <p>Chaque cadre est une mini version du site. Faites défiler <strong>à l’intérieur du cadre</strong> (molette, doigt ou pavé tactile) : un chiffon essuie la vitre au rythme du défilement, puis s’en va. Remontez, la saleté revient. Le bouton « Lecture » le fait tout seul.</p>
+  </header>
+  <div class="grid" id="grid"></div>
+  <p class="note">Dites-moi un numéro. Je peux aussi mélanger, par exemple « le geste du 1 avec le départ du 5 ».</p>
+</div>
+
+<template id="tpl">
+  <article class="card">
+    <div class="frame">
+      <div class="scroller" tabindex="0">
+        <div class="site">
+          <div class="bar"><span class="burger"><i></i><i></i><i></i></span><span class="logo">Horclean</span></div>
+          <div class="hero"><p class="h1">Vos vitrines toujours propres.</p><p class="lead">Un abonnement, et vous n’avez plus à y penser.</p><span class="btn">Choisir un abonnement</span></div>
+          <p class="plans-h">Abonnements</p>
+          <div class="plans"><span class="plan">Petite vitrine<b>120 CHF</b>par an</span><span class="plan">Moyenne<b>160 CHF</b>par an</span><span class="plan">Grande<b>220 CHF</b>par an</span></div>
+        </div>
+      </div>
+      <div class="glass"><canvas></canvas><div class="cloth"></div></div>
+    </div>
+    <div class="body">
+      <div class="head"><span class="num"></span><h2></h2></div>
+      <p class="desc"></p>
+      <div class="row"><button class="play" type="button">Lecture</button><span class="hint">ou faites défiler dans le cadre</span></div>
+    </div>
+  </article>
+</template>
+
+<script>
+/* Chiffon en microfibre : un carré souple avec des plis et une couture */
+const CLOTH = (fill, dark, light) => `<svg viewBox="0 0 120 110" aria-hidden="true">
+  <path d="M14 18 C30 8 58 14 76 8 C92 3 108 10 112 22 C118 40 110 58 114 76 C117 92 104 104 88 102 C66 99 46 106 28 100 C12 95 6 82 9 66 C12 50 4 32 14 18Z" fill="${fill}"/>
+  <path d="M20 26 C40 34 62 22 84 30 C96 34 104 30 108 26" fill="none" stroke="${light}" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+  <path d="M16 56 C36 48 58 62 82 54 C94 50 104 56 110 60" fill="none" stroke="${dark}" stroke-width="3.5" stroke-linecap="round" opacity=".45"/>
+  <path d="M18 84 C38 78 60 90 86 82 C96 79 104 84 108 88" fill="none" stroke="${light}" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+  <path d="M14 18 C30 8 58 14 76 8 C92 3 108 10 112 22" fill="none" stroke="${dark}" stroke-width="2" stroke-dasharray="3 4" opacity=".5"/>
+</svg>`;
+const WIDE = `<svg viewBox="0 0 520 90" aria-hidden="true">
+  <path d="M6 20 C80 6 170 18 260 10 C350 4 440 16 514 12 C518 34 512 56 516 78 C430 88 340 76 260 84 C170 90 90 80 4 86 C8 62 2 40 6 20Z" fill="#7fbaf2"/>
+  <path d="M20 34 C120 26 220 40 320 30 C400 24 460 34 500 30" fill="none" stroke="#bfe0ff" stroke-width="4" stroke-linecap="round"/>
+  <path d="M18 60 C130 52 230 68 340 58 C420 52 470 62 502 58" fill="none" stroke="#3f86d6" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+</svg>`;
+
+const S = t => t * t * (3 - 2 * t);           // adoucissement
+const lerp = (a, b, t) => a + (b - a) * t;
+const TAU = Math.PI * 2;
+
+/* chaque direction : le trajet du chiffon (t de 0 à 1, coordonnées 0..1 du cadre), la taille de l'essuyage, et sa sortie */
+const DESIGNS = [
+  { name: "Le laveur pro", cloth: CLOTH("#8cc4f6", "#2f78c8", "#d6ecff"), brush: .19,
+    desc: "Le geste du métier : des allers-retours horizontaux, de haut en bas, ligne par ligne. Arrivé en bas, le chiffon glisse hors de la vitre vers la droite.",
+    path: t => { const rows = 4, r = Math.min(rows - 1, Math.floor(t * rows)), f = S(t * rows - r);
+      return { x: lerp(.1, .9, r % 2 ? 1 - f : f), y: lerp(.14, .86, (r + f * .15) / (rows - 1 + .15)) }; },
+    exit: (p, e) => ({ x: p.x + e * .7, y: p.y + e * .1, rot: e * 40 }) },
+  { name: "Les cercles", cloth: CLOTH("#a9d4fb", "#3a86d4", "#e3f2ff"), brush: .2,
+    desc: "Le chiffon frotte en petits cercles, comme à la main, en descendant le long de la vitre. Puis il tombe doucement par le bas.",
+    path: t => ({ x: .5 + .32 * Math.sin(TAU * 1.5 * t) + .08 * Math.cos(TAU * 9 * t), y: .12 + .76 * t + .08 * Math.sin(TAU * 9 * t) }),
+    exit: (p, e) => ({ x: p.x + e * .05, y: p.y + e * e * .9, rot: e * 25 }) },
+  { name: "Les bandes verticales", cloth: CLOTH("#7fb6ee", "#2a6fbd", "#cfe6ff"), brush: .19,
+    desc: "De haut en bas, colonne par colonne, de gauche à droite. Très net, très régulier. À la fin, le chiffon remonte et sort par le haut.",
+    path: t => { const cols = 5, c = Math.min(cols - 1, Math.floor(t * cols)), f = S(t * cols - c);
+      return { x: lerp(.1, .9, c / (cols - 1)), y: lerp(.12, .88, c % 2 ? 1 - f : f) }; },
+    exit: (p, e) => ({ x: p.x, y: p.y - e * 1.1, rot: -e * 30 }) },
+  { name: "Le huit", cloth: CLOTH("#b6dafc", "#4a90d9", "#eaf5ff"), brush: .24,
+    desc: "Un grand mouvement fluide en forme de huit qui s’élargit et descend : élégant, presque une danse. Le chiffon s’envole ensuite en haut à droite.",
+    path: t => { const a = lerp(.18, .4, t); return { x: .5 + a * Math.sin(TAU * 2 * t), y: lerp(.16, .84, t) + .14 * Math.sin(TAU * 4 * t) }; },
+    exit: (p, e) => ({ x: p.x + e * .8, y: p.y - e * .9, rot: e * 70 }) },
+  { name: "Le grand geste", cloth: CLOTH("#8cc4f6", "#2f78c8", "#d6ecff"), brush: .3,
+    desc: "Le chiffon arrive d’en haut à droite et balaie la vitre en grands arcs généreux. Il est lancé hors de l’écran sur le côté, comme une fin de travail satisfaite.",
+    path: t => ({ x: .5 + .38 * Math.cos(Math.PI * 3.2 * t), y: lerp(.08, .9, t) + .06 * Math.sin(Math.PI * 3.2 * t) }),
+    exit: (p, e) => ({ x: p.x - e * 1.2, y: p.y - e * .3 + e * e * .5, rot: -e * 120 }) },
+  { name: "Le rideau", cloth: WIDE, brush: 0, wide: true,
+    desc: "Une large bande de tissu descend sur toute la largeur et emporte la saleté d’un coup, comme un rideau. Elle continue sa course et disparaît par le bas.",
+    path: t => ({ x: .5 + .02 * Math.sin(TAU * 3 * t), y: lerp(-.05, 1.0, t) }),
+    exit: (p, e) => ({ x: p.x, y: p.y + e * .5, rot: 0 }) },
+];
+
+const WIPE_END = .78; // part du défilement consacrée à l'essuyage, le reste au départ du chiffon
+
+/* saleté reproductible (même dessin à chaque image) */
+function rng(seed) { return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+function paintDirt(ctx, w, h, seed) {
+  const r = rng(seed);
+  ctx.fillStyle = "rgba(196,188,170,.14)"; ctx.fillRect(0, 0, w, h);
+  for (let i = 0; i < 26; i++) {                 // taches
+    const x = r() * w, y = r() * h, rad = (.05 + r() * .14) * w;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, rad);
+    g.addColorStop(0, `rgba(${110 + r() * 30|0},${100 + r() * 25|0},${80 + r() * 20|0},${.10 + r() * .14})`); g.addColorStop(1, "rgba(120,110,90,0)");
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, rad, 0, TAU); ctx.fill();
+  }
+  ctx.lineCap = "round";                          // traînées de pluie
+  for (let i = 0; i < 46; i++) {
+    const x = r() * w, y = r() * h * .8, len = (.05 + r() * .2) * h;
+    ctx.strokeStyle = `rgba(120,112,95,${.08 + r() * .1})`; ctx.lineWidth = (.002 + r() * .005) * w;
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.bezierCurveTo(x + r() * 6 - 3, y + len * .4, x + r() * 8 - 4, y + len * .7, x + r() * 6 - 3, y + len); ctx.stroke();
+  }
+  for (let i = 0; i < 160; i++) { ctx.fillStyle = `rgba(90,82,70,${.15 + r() * .25})`; ctx.beginPath(); ctx.arc(r() * w, r() * h, (.001 + r() * .003) * w, 0, TAU); ctx.fill(); }
+}
+
+function mount(d, i) {
+  const card = document.getElementById("tpl").content.firstElementChild.cloneNode(true);
+  card.classList.add("f" + (i + 1));
+  card.querySelector(".num").textContent = i + 1;
+  card.querySelector("h2").textContent = d.name;
+  card.querySelector(".desc").textContent = d.desc;
+  const cloth = card.querySelector(".cloth"); cloth.innerHTML = d.cloth;
+  const scroller = card.querySelector(".scroller");
+  scroller.setAttribute("aria-label", `Cadre ${i + 1} : faites défiler pour voir le chiffon essuyer la vitre`);
+  const canvas = card.querySelector("canvas"), ctx = canvas.getContext("2d");
+  const frame = card.querySelector(".frame");
+  let W = 0, H = 0, dpr = 1;
+
+  function draw() {
+    const max = scroller.scrollHeight - scroller.clientHeight;
+    const p = max > 0 ? Math.min(1, Math.max(0, scroller.scrollTop / max)) : 0;
+    const tw = Math.min(1, p / WIPE_END), e = S(Math.max(0, (p - WIPE_END) / (1 - WIPE_END)));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.globalCompositeOperation = "source-over";
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalAlpha = 1 - S(Math.max(0, (p - (WIPE_END - .04)) / .1)); // les derniers résidus s'effacent à la fin
+    paintDirt(ctx, W, H, 1234 + i * 77);
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "destination-out";            // le chiffon enlève la saleté là où il est passé
+    const steps = Math.ceil(tw * 260);
+    for (let k = 0; k <= steps; k++) {
+      const q = d.path(tw * k / Math.max(1, steps));
+      if (d.wide) { const y = q.y * H; const g = ctx.createLinearGradient(0, y - H * .12, 0, y + H * .02); g.addColorStop(0, "#000"); g.addColorStop(1, "rgba(0,0,0,0)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, y + H * .02); break; }
+      const x = q.x * W, y = q.y * H, rad = d.brush * W * .55;
+      const g = ctx.createRadialGradient(x, y, rad * .35, x, y, rad);
+      g.addColorStop(0, "rgba(0,0,0,.9)"); g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, rad, 0, TAU); ctx.fill();
+    }
+    // le chiffon : à sa place sur le trajet, puis sa sortie
+    const here = d.path(tw), prev = d.path(Math.max(0, tw - .01));
+    const pos = e > 0 ? d.exit(here, e) : { ...here, rot: 0 };
+    const lean = Math.atan2(here.y - prev.y, here.x - prev.x) * 8;      // il s'incline un peu dans le sens du geste
+    const cw = cloth.offsetWidth, ch = cloth.offsetHeight;
+    const hidden = p <= 0.001;
+    cloth.style.opacity = hidden ? 0 : 1;
+    cloth.style.transform = `translate(${pos.x * W - cw / 2}px, ${pos.y * H - ch / 2}px) rotate(${(d.wide ? 0 : Math.max(-18, Math.min(18, lean))) + pos.rot}deg)`;
+  }
+  function size() {
+    dpr = Math.min(2, window.devicePixelRatio || 1); W = frame.clientWidth; H = frame.clientHeight;
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr); draw();
+  }
+  let raf = 0;
+  scroller.addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(draw); }, { passive: true });
+  new ResizeObserver(size).observe(frame);
+
+  // Lecture : fait défiler le cadre tout seul (et revient au début si on relance)
+  const btn = card.querySelector(".play");
+  let anim = 0;
+  btn.addEventListener("click", () => {
+    cancelAnimationFrame(anim);
+    const max = scroller.scrollHeight - scroller.clientHeight;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { scroller.scrollTop = scroller.scrollTop > 0 ? 0 : max; return; }
+    const from = scroller.scrollTop >= max - 2 ? 0 : scroller.scrollTop;
+    scroller.scrollTop = from;
+    const start = performance.now(), dur = 4200 * (1 - from / max || 1);
+    const step = now => { const k = Math.min(1, (now - start) / dur); scroller.scrollTop = from + (max - from) * k; if (k < 1) anim = requestAnimationFrame(step); };
+    anim = requestAnimationFrame(step);
+  });
+  document.getElementById("grid").appendChild(card);
+  size();
+}
+DESIGNS.forEach(mount);
+</script>
