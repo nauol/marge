@@ -6,6 +6,11 @@
 <title>Horclean</title>
 <meta name="description" content="Horclean nettoie les vitrines des commerces par abonnement, à Genève et environs. Formule Confort dès 160 CHF par an.">
 <meta name="theme-color" content="#dcefff">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Horclean · Vos vitrines toujours propres">
+<meta property="og:description" content="Nettoyage de vitrines par abonnement, à Genève et environs.">
+<meta property="og:image" content="share.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231c6fd8'/%3E%3Cpath d='M9 22c5-2 9-8 14-12' stroke='%23fff' stroke-width='3' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -108,7 +113,11 @@ h2 { margin: 0; font-weight: 300; font-size: clamp(32px, 4.4vw, 52px); line-heig
 .err { margin: 0; color: var(--error); font-size: 14px; }
 .status { margin: 0; font-size: 15px; }
 .small { margin: 0; color: var(--muted); font-size: 14px; }
-footer { padding-block: 32px calc(32px + env(safe-area-inset-bottom, 0px)); background: var(--sky); color: var(--muted); font-size: 14px; }
+footer { padding-block: 32px calc(24px + env(safe-area-inset-bottom, 0px)); background: var(--sky); color: var(--muted); font-size: 14px; }
+.privacy { margin-top: 18px; font-size: 12px; line-height: 1.6; }
+.privacy summary { cursor: pointer; width: max-content; text-decoration: underline; text-underline-offset: 3px; }
+.privacy div { max-width: 70ch; display: grid; gap: 6px; margin-top: 10px; }
+.privacy p { margin: 0; }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
 </style>
 </head>
@@ -203,6 +212,18 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
 <footer>
   <div class="wrap"><span>© 2026 Horclean</span><span>Nettoyage de vitrines, Genève et environs</span></div>
+  <div class="wrap">
+    <details class="privacy" id="confidentialite">
+      <summary>Confidentialité</summary>
+      <div>
+        <p>Quand vous remplissez le formulaire, Horclean reçoit votre e-mail ou votre numéro de téléphone, et l’abonnement choisi s’il y en a un.</p>
+        <p>Ces informations servent uniquement à vous recontacter au sujet de votre demande. Elles ne sont ni vendues ni transmises à des tiers à des fins publicitaires.</p>
+        <p>Le formulaire est acheminé par e-mail via le service FormSubmit. Vos données sont conservées le temps nécessaire au traitement de votre demande et, si vous devenez client, pendant la durée de l’abonnement.</p>
+        <p>Vous pouvez demander à tout moment à consulter, corriger ou supprimer vos données en répondant simplement à notre message.</p>
+        <p>Ce site n’utilise pas de cookies publicitaires ni de mesure d’audience.</p>
+      </div>
+    </details>
+  </div>
 </footer>
 
 <script>
@@ -220,8 +241,10 @@ const solid = () => topBar.classList.toggle("solid", wipeEl.getBoundingClientRec
 document.addEventListener("scroll", solid, { passive: true, capture: true }); addEventListener("resize", solid); solid();
 
 /* ---------- choix de l'abonnement puis contact ---------- */
-// Adresse du service de formulaire (Formspree, etc.) à renseigner quand elle existe : les demandes y seront envoyées.
-const FORM_ENDPOINT = "";
+// Les demandes partent par e-mail via FormSubmit : mettre ici l'adresse qui doit les recevoir
+// (ou l'alias secret que FormSubmit donne après la première activation, pour ne pas afficher l'e-mail dans le code).
+const FORM_TO = "";
+const FORM_ENDPOINT = FORM_TO ? "https://formsubmit.co/ajax/" + FORM_TO : "";
 let chosen = "";
 const choiceEl = document.getElementById("choice");
 document.querySelectorAll(".opt").forEach(b => b.addEventListener("click", () => {
@@ -241,7 +264,7 @@ form.addEventListener("submit", async e => {
   if (!FORM_ENDPOINT) { status.textContent = "Aperçu : l’envoi sera branché dès que l’adresse de réception sera choisie."; return; }
   status.textContent = "Envoi…";
   try {
-    const r = await fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ abonnement: chosen || "Aucun (question)", contact: v }) });
+    const r = await fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ _subject: "Nouvelle demande Horclean", _template: "table", _captcha: "false", Abonnement: chosen || "Aucun (question)", Contact: v }) });
     status.textContent = r.ok ? "C’est noté. Je vous écris très vite." : "L’envoi n’a pas marché. Réessayez dans un instant.";
   } catch { status.textContent = "L’envoi n’a pas marché. Vérifiez votre connexion et réessayez."; }
 });
