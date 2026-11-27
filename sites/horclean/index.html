@@ -205,8 +205,6 @@ document.querySelectorAll(".opt").forEach(b => b.addEventListener("click", () =>
   document.querySelectorAll(".opt").forEach(o => o.setAttribute("aria-pressed", String(o === b)));
   chosen = b.dataset.choice;
   choiceEl.innerHTML = "Votre choix : <b></b>"; choiceEl.querySelector("b").textContent = chosen;
-  document.getElementById("contact").scrollIntoView({ block: "start" });
-  setTimeout(() => document.getElementById("reach").focus({ preventScroll: true }), 500);
 }));
 const form = document.getElementById("form"), input = document.getElementById("reach"), err = document.getElementById("reach-err"), status = document.getElementById("status");
 form.addEventListener("submit", async e => {
