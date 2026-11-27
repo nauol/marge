@@ -29,7 +29,8 @@ a { color: inherit; }
 .wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding-left: var(--gut); padding-right: var(--gut-r); }
 
 /* ---- en-tête : le menu en haut à gauche ---- */
-.top { position: fixed; inset: 0 0 auto; z-index: 30; padding-top: env(safe-area-inset-top, 0px); }
+.top { position: fixed; inset: 0 0 auto; z-index: 30; padding-top: env(safe-area-inset-top, 0px); transition: background .25s, box-shadow .25s; }
+.top.solid { background: rgb(255 255 255 / .94); box-shadow: 0 1px 0 var(--line); }
 .top .wrap { display: flex; align-items: center; gap: 14px; height: 72px; }
 .menu-btn { width: 46px; height: 46px; border-radius: 50%; border: 0; background: var(--white); box-shadow: var(--shadow); display: grid; place-items: center; cursor: pointer; color: var(--ink); }
 .menu-btn svg { width: 20px; height: 20px; }
@@ -86,7 +87,16 @@ h2 { margin: 0; font-weight: 300; font-size: clamp(32px, 4.4vw, 52px); line-heig
 .once .opt { width: auto; min-height: 52px; }
 
 /* ---- contact ---- */
-.contact { background: linear-gradient(180deg, var(--white), var(--sky)); scroll-margin-top: 40px; }
+#abonnements { padding-bottom: 56px; }
+.contact { background: linear-gradient(180deg, var(--white), var(--sky)); scroll-margin-top: 40px; padding-top: 24px; }
+.contact .wrap { display: grid; gap: 32px; }
+.ask { display: grid; gap: 16px; max-width: 640px; }
+.ask p { margin: 0; color: var(--muted); font-size: 18px; }
+.ways { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.way { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 999px; background: var(--white); border: 1px solid var(--line); font-size: 15px; }
+.way i { width: 32px; height: 32px; border-radius: 50%; background: var(--blue-soft); color: var(--blue); display: grid; place-items: center; }
+.way svg { width: 16px; height: 16px; }
+.card h3 { margin: 0; font-weight: 300; font-size: clamp(26px, 3vw, 34px); letter-spacing: -0.02em; line-height: 1.15; }
 .card { background: var(--white); border-radius: 30px; box-shadow: var(--shadow); padding: clamp(24px, 5vw, 48px); max-width: 640px; display: grid; gap: 20px; }
 .choice { margin: 0; padding: 14px 18px; border-radius: 16px; background: var(--blue-soft); font-size: 15px; }
 .choice b { font-weight: 600; }
@@ -167,9 +177,18 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="contact" id="contact" aria-labelledby="contact-h">
     <div class="wrap">
-      <form class="card" id="form" novalidate>
-        <h2 id="contact-h">Je vous écris directement</h2>
-        <p class="choice" id="choice">Choisissez d’abord un abonnement plus haut.</p>
+      <div class="ask">
+        <h2 id="contact-h">Une question&nbsp;? Parlons-en.</h2>
+        <p>Je suis disponible pour un appel ou par e-mail, pour répondre à vos questions ou démarrer votre abonnement. Laissez simplement votre e-mail ou votre numéro ci-dessous : je vous recontacte personnellement.</p>
+        <div class="ways">
+          <span class="way"><i><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.2 2.5 3.4 3c-.6.2-1 .8-.9 1.4.6 4.4 4.1 7.9 8.5 8.5.6.1 1.2-.3 1.4-.9l.5-1.8-2.6-1.3-1.2 1.2a6.6 6.6 0 0 1-3.2-3.2l1.2-1.2z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></i>Un appel</span>
+          <span class="way"><i><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3.5" width="12" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m2.5 4.5 5.5 4 5.5-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></i>Un e-mail</span>
+          <span class="way"><i><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 5v3.2l2 1.3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></i>Réponse personnelle</span>
+        </div>
+      </div>
+      <form class="card" id="form" novalidate aria-labelledby="form-h">
+        <h3 id="form-h">Je vous écris directement</h3>
+        <p class="choice" id="choice">Aucun abonnement choisi : vous pouvez aussi simplement poser une question.</p>
         <div class="field">
           <label for="reach">Votre e-mail ou votre numéro de téléphone</label>
           <input id="reach" name="contact" type="text" autocomplete="email" inputmode="email" aria-describedby="reach-err" required>
@@ -196,6 +215,11 @@ menu.addEventListener("click", e => { if (e.target.closest("a")) setMenu(false);
 document.addEventListener("click", e => { if (!menu.hidden && !menu.contains(e.target)) setMenu(false); });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !menu.hidden) { setMenu(false); menuBtn.focus(); } });
 
+/* l'en-tête prend un fond blanc une fois l'accueil passé, pour que le logo ne chevauche pas le contenu */
+const topBar = document.querySelector(".top"), wipeEl = document.getElementById("wipe");
+const solid = () => topBar.classList.toggle("solid", wipeEl.getBoundingClientRect().bottom < 80);
+document.addEventListener("scroll", solid, { passive: true, capture: true }); addEventListener("resize", solid); solid();
+
 /* ---------- choix de l'abonnement puis contact ---------- */
 // Adresse du service de formulaire (Formspree, etc.) à renseigner quand elle existe : les demandes y seront envoyées.
 const FORM_ENDPOINT = "";
@@ -212,14 +236,13 @@ form.addEventListener("submit", async e => {
   const v = input.value.trim();
   const isMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), isPhone = (v.replace(/[^\d]/g, "").length >= 9) && /^[+\d\s().-]+$/.test(v);
   let msg = "";
-  if (!chosen) msg = "Choisissez d’abord un abonnement plus haut.";
-  else if (!isMail && !isPhone) msg = "Écrivez un e-mail (avec un @) ou un numéro de téléphone.";
+  if (!isMail && !isPhone) msg = "Écrivez un e-mail (avec un @) ou un numéro de téléphone.";
   if (msg) { err.textContent = msg; err.hidden = false; input.setAttribute("aria-invalid", "true"); input.focus(); return; }
   err.hidden = true; input.removeAttribute("aria-invalid");
   if (!FORM_ENDPOINT) { status.textContent = "Aperçu : l’envoi sera branché dès que l’adresse de réception sera choisie."; return; }
   status.textContent = "Envoi…";
   try {
-    const r = await fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ abonnement: chosen, contact: v }) });
+    const r = await fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ abonnement: chosen || "Aucun (question)", contact: v }) });
     status.textContent = r.ok ? "C’est noté. Je vous écris très vite." : "L’envoi n’a pas marché. Réessayez dans un instant.";
   } catch { status.textContent = "L’envoi n’a pas marché. Vérifiez votre connexion et réessayez."; }
 });
