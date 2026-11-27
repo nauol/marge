@@ -1,0 +1,5 @@
+[
+ { "check": "copy-headings", "target": "h2#formules-h", "reason": "page in French: the check reads English section nouns; every heading names a thing (formules, prix, robot, vitrines, quartiers)" },
+ { "check": "section-gaps", "target": "section#formules / section#robot", "reason": "390 only: six price rows and their photograph need more than one phone screen; the second screen ends on the photograph, then the dark band starts" },
+ { "check": "section-gaps", "target": "section#abonnement / footer#contact", "reason": "390 only: the six-field form needs two phone screens; the space under the submit button keeps the action bar clear before the close" }
+]

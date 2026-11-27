@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="fr" data-type="service" data-radius="soft" data-buttons="arrow" data-motion="" class="m-enter mo-js m-enter-done mo-safe" data-tone="light" data-moments-ready="1" data-ready="1"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vitrabo : nettoyage de vitrines par abonnement à Carouge</title>
+<meta name="description" content="Vos vitrines de commerce lavées chaque mois par un robot sur batterie, sans rendez-vous ni devis, dès 120 CHF par an.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vitrabo : nettoyage de vitrines par abonnement à Carouge">
+<meta property="og:description" content="Vos vitrines de commerce lavées chaque mois par un robot sur batterie, dès 120 CHF par an.">
+<meta property="og:image" content="share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#e8e8e3">
+<!-- <link rel="canonical" href="https://[le domaine du client]/"> : à ajouter quand le domaine existe -->
+<meta name="site-kind" content="other">
+<meta name="page-type" content="service">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400..700&amp;family=Red+Hat+Text:wght@400..600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/system.css">
+<link rel="stylesheet" href="assets/ui/cards.css">
+<link rel="stylesheet" href="assets/motion/motion.css">
+<link rel="stylesheet" href="assets/backgrounds/backgrounds.css">
+<link rel="stylesheet" href="assets/layout/layout.css">
+<link rel="stylesheet" href="assets/icons/icon.css">
+<style>
+:root {
+  --p-bg: #e8e8e3; --p-surface: #dcdcd6; --p-ink: #181715; --p-muted: #5c5b56;
+  --p-accent: #bfb21a; --p-accent-ink: #181715; --p-action: #181715; --p-action-ink: #e8e8e3;
+  --p-inv-bg: #181715; --p-inv-surface: #242321; --p-inv-ink: #e8e8e3; --p-inv-muted: #91908d;
+  --p-inv-accent: #bfb21a; --p-inv-accent-ink: #181715; --p-inv-action: #bfb21a; --p-inv-action-ink: #181715;
+  --font-display: "Red Hat Display", system-ui, sans-serif;
+  --font-text: "Red Hat Text", system-ui, sans-serif;
+  --display-weight: 400;
+  --display-tracking: -0.025em;
+  --display-tracking-xl: -0.035em;
+}
+</style>
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="assets/moments/moments.js">
+<link rel="modulepreload" href="assets/moments/lib.js">
+<link rel="modulepreload" href="assets/moments/picture-develops/moment.js">
+<style>
+  .rows .rows__name small { display: block; font-weight: 400; color: var(--muted); font-size: var(--t-small); }
+  /* picture-develops : la photo de la section, sur la colonne droite, aussi haute que le texte */
+  .develop { margin: 0; border-radius: var(--r-lg); overflow: hidden; height: min(560px, var(--ly-fit)); }
+  .develop > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 1023px) { #formules .grid.fill > .frame--fill { flex: none; aspect-ratio: 4 / 3; height: auto; min-height: 0; } }
+  @media (max-width: 639px) { #abonnement .frame { aspect-ratio: 3 / 4 !important; } #formules .grid.fill > .frame--fill { aspect-ratio: 2 / 3; } }
+  @media (max-width: 1023px) { .develop { height: auto; aspect-ratio: 4 / 3; margin-top: var(--s-7); } }
+</style>
+<link rel="stylesheet" href="http://127.0.0.1:5200/assets/moments/picture-develops/moment.css"></head>
+<body>
+<!-- type: service
+     deal: hero photo, nav nav-centre, close close-photo, footer footer-columns, rhythm dark-band, buttons arrow, mark dots
+     palette paper-grey-brass (le gris pierre des façades et trottoirs de Carouge, le laiton des poignées et enseignes de boutique), type red-hat
+     moments: picture-develops dans #robot (le robot apparaît comme une photo qui se développe : on montre l'outil une fois) -->
+
+<header class="nav nav--centre" data-m-nav="1">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">Aller au contenu</a>
+    <a class="nav__logo" href="#top"><span class="mark" data-mark="dots" aria-hidden="true"></span>Vitrabo</a>
+    <nav class="nav__links" aria-label="Principal">
+      <div class="nav__item">
+        <a class="nav__link" href="#formules">Formules <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a><button class="nav__expand" type="button" aria-label="Show Formules links" aria-expanded="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+        <div class="nav__menu">
+          <div class="wrap grid">
+            <div class="menu-col span-3">
+              <p class="t-label">Abonnement annuel</p>
+              <a href="#formules">Essentielle<span>Un passage par mois</span></a>
+              <a href="#formules">Confort<span>Deux passages par mois</span></a>
+              <a href="#formules">Premium<span>Un passage par semaine</span></a>
+            </div>
+            <div class="menu-col span-3">
+              <p class="t-label">Sans abonnement</p>
+              <a href="#formules">Passage unique<span>30 CHF la vitrine</span></a>
+              <a href="#questions">Vitrines acceptées<span>Rez-de-chaussée, sans échelle</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item"><a class="nav__link" href="#robot">Robot</a></div>
+      <div class="nav__item"><a class="nav__link" href="#questions">Questions</a></div>
+      <div class="nav__item"><a class="nav__link" href="#quartiers">Quartiers</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="btn btn--primary" href="#abonnement">Demander un abonnement</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero hero--photo is-still is-entered" data-enter="" data-calm="left" aria-labelledby="hero-h">
+    <img class="hero__bg" src="assets/img/photo-f14860670.webp" srcset="assets/img/photo-f14860670-500.webp 500w, assets/img/photo-f14860670-960.webp 960w, assets/img/photo-f14860670-1280.webp 1280w, assets/img/photo-f14860670.webp 1920w" sizes="(max-width: 639px) 250vw, 100vw" width="1920" height="1280" alt="La place du Marché de Carouge, ses platanes et ses commerces au rez-de-chaussée, par une matinée ensoleillée" style="--ly-pos: 50% 50%; --ly-pos-phone: 50% 50%" fetchpriority="high" data-source="stand-in" data-subject="la place du Marché de Carouge">
+    <div class="wrap"><div class="hero-text">
+      <div class="hero__text">
+        <h1 id="hero-h">Nettoyage de vitrines à Carouge</h1>
+        <p class="hero__lead">Un abonnement à l’année pour les commerces : nous passons chaque mois laver vos vitrines extérieures, sans rendez-vous à prendre. Dès 120&nbsp;CHF par an.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="#abonnement">Demander un abonnement<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"></path><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"></path></svg></a><a class="btn btn--secondary" href="#formules">Voir les formules</a></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="section" id="formules" style="--hm: 2" aria-labelledby="formules-h">
+    <div class="wrap">
+      <div class="grid grid--top fill">
+        <div class="span-5">
+          <div class="section-head">
+            <h2 id="formules-h">Formules et prix</h2>
+            <p>Le prix annuel dépend de la taille de la vitrine et du nombre de passages.</p>
+          </div>
+          <ul class="rows">
+            <li><span class="rows__name">Petite vitrine<small>Essentielle, un passage par mois</small></span><span class="rows__value">120&nbsp;CHF par an</span></li>
+            <li><span class="rows__name">Vitrine moyenne<small>Essentielle, un passage par mois</small></span><span class="rows__value">160&nbsp;CHF par an</span></li>
+            <li><span class="rows__name">Grande vitrine<small>Essentielle, un passage par mois</small></span><span class="rows__value">220&nbsp;CHF par an</span></li>
+            <li><span class="rows__name">Confort<small>Deux passages par mois</small></span><span class="rows__value">Sur devis</span></li>
+            <li><span class="rows__name">Premium<small>Un passage par semaine</small></span><span class="rows__value">Sur devis</span></li>
+            <li><span class="rows__name">Passage unique<small>Sans abonnement</small></span><span class="rows__value">30&nbsp;CHF</span></li>
+          </ul>
+        </div>
+        <div class="frame frame--photo frame--fill span-6 start-7">
+          <img class="frame__img" src="assets/img/photo-f51002933.webp" srcset="assets/img/photo-f51002933-500.webp 500w, assets/img/photo-f51002933-960.webp 960w, assets/img/photo-f51002933.webp 1280w" sizes="(max-width: 639px) 200vw, (max-width: 1023px) 100vw, 50vw" width="1280" height="1153" alt="Un robot lave-vitres carré plaqué contre une vitre, vu à travers le verre" loading="eager" decoding="async" data-source="stand-in" data-subject="robot lave-vitres sur une vitre">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ground-inverse" id="robot" aria-labelledby="robot-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="robot-h">Un robot sur batterie</h2>
+        <p>Il se fixe sur la vitre et la lave seul pendant que nous préparons la suivante.</p>
+      </div>
+      <div class="grid grid--top">
+        <div class="span-6">
+          <ul class="rows">
+            <li><span class="rows__name">Pas de câble sur le trottoir<small>Il tourne sur une batterie portable</small></span></li>
+            <li><span class="rows__name">Pas de tuyau d’eau<small>Rien ne coule sur le domaine public</small></span></li>
+            <li><span class="rows__name">Pas d’échelle<small>Nous restons au rez-de-chaussée</small></span></li>
+            <li><span class="rows__name">Un passage court<small>Votre porte reste ouverte aux clients</small></span></li>
+          </ul>
+        </div>
+        <figure class="develop span-6 start-7 mo-pd mo-pd--film is-live" data-moment="picture-develops" data-moment-mounted="1"><img src="assets/img/photo-f51002936.webp" srcset="assets/img/photo-f51002936-500.webp 500w, assets/img/photo-f51002936-960.webp 960w, assets/img/photo-f51002936.webp 1280w" sizes="(max-width: 1023px) 100vw, 50vw" alt="Un robot lave-vitres vu de dos, fixé sur une vitre devant des arbres" width="1280" height="1185" loading="eager" decoding="async" data-source="stand-in" data-subject="robot lave-vitres sur une vitre"></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="questions" aria-labelledby="questions-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="questions-h">Questions des commerçants</h2>
+        <p>Une autre question ? <a class="link" href="#abonnement">Écrire à Vitrabo</a></p>
+      </div>
+      <div class="grid grid--top">
+        <div class="faq span-12">
+          <div class="faq__item"><h3>Dois-je être là pendant le passage ?</h3><p>Non. Nous passons au rythme de votre formule, vous n’avez rien à préparer ni à demander.</p></div>
+          <div class="faq__item"><h3>Quelles vitrines nettoyez-vous ?</h3><p>Les vitrines de commerce au rez-de-chaussée, accessibles sans échelle. Le premier étage seulement quand la sécurité le permet.</p></div>
+          <div class="faq__item"><h3>Lavez-vous aussi l’intérieur ?</h3><p>Non, nous lavons la face extérieure des vitrines.</p></div>
+          <div class="faq__item"><h3>Le trottoir sera-t-il mouillé ?</h3><p>Non. Le robot travaille sans tuyau et ne déverse pas d’eau sur la voie publique.</p></div>
+          <div class="faq__item"><h3>Comment est calculé le prix ?</h3><p>Selon la taille de la vitrine, le temps de lavage et le nombre de passages.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="quartiers" aria-labelledby="quartiers-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="quartiers-h">Carouge d’abord, puis Genève</h2>
+        <p>Nous regroupons les commerces par rue pour laver plusieurs vitrines à la suite, en tournées régulières.</p>
+      </div>
+      <div class="grid">
+        <div class="frame frame--photo span-6" style="aspect-ratio: 4 / 3">
+          <img class="frame__img" src="assets/img/photo-f114779738.webp" srcset="assets/img/photo-f114779738-500.webp 500w, assets/img/photo-f114779738-960.webp 960w, assets/img/photo-f114779738.webp 1280w" sizes="(max-width: 1023px) 100vw, 50vw" width="1280" height="962" alt="Une rue de Carouge bordée de maisons basses et de commerces au rez-de-chaussée" loading="eager" decoding="async" data-source="stand-in" data-subject="rue de Carouge">
+        </div>
+        <div class="frame frame--photo span-6 start-7" style="aspect-ratio: 4 / 3">
+          <img class="frame__img" src="assets/img/photo-f119348396.webp" srcset="assets/img/photo-f119348396-500.webp 500w, assets/img/photo-f119348396-960.webp 960w, assets/img/photo-f119348396.webp 1280w" sizes="(max-width: 1023px) 100vw, 50vw" width="1280" height="853" alt="Une rue commerçante de Genève avec ses vitrines et un tram" loading="eager" decoding="async" data-source="stand-in" data-subject="rue commerçante de Genève">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="abonnement" style="--hm: 2" aria-labelledby="abonnement-h">
+    <div class="wrap">
+      <div class="grid grid--top fill">
+        <div class="span-6 stack-6">
+          <div class="section-head">
+            <h2 id="abonnement-h">Demander un abonnement</h2>
+            <p>Dites-nous où se trouve votre commerce. Nous passons voir la vitrine et vous proposons la formule qui lui convient.</p>
+          </div>
+          <div class="frame frame--photo" style="aspect-ratio: 4 / 3">
+          <img class="frame__img" src="assets/img/photo-f27987433-960.webp" srcset="assets/img/photo-f27987433-500.webp 500w, assets/img/photo-f27987433-960.webp 960w" sizes="(max-width: 639px) 250vw, (max-width: 1023px) 100vw, 50vw" width="960" height="640" alt="La fontaine de la place du Marché à Carouge, entourée de platanes" style="object-position: 8% 50%" loading="eager" decoding="async" data-source="stand-in" data-subject="fontaine de la place du Marché, Carouge">
+          </div>
+        </div>
+        <div class="span-6 start-7">
+          <form class="form" action="mailto:bonjour@vitrabo.example" method="post" enctype="text/plain" data-endpoint="" data-sent="Votre demande d’abonnement est envoyée." novalidate="">
+            <div class="field"><label for="f-shop">Nom du commerce</label>
+              <input id="f-shop" name="commerce" type="text" autocomplete="organization" required="" aria-describedby="f-shop-err">
+              <p class="field__error" id="f-shop-err" hidden="">Écrivez le nom de votre commerce.</p></div>
+            <div class="field"><label for="f-street">Rue</label>
+              <input id="f-street" name="rue" type="text" autocomplete="address-line1" required="" aria-describedby="f-street-err">
+              <p class="field__error" id="f-street-err" hidden="">Écrivez la rue où se trouve la vitrine.</p></div>
+            <div class="field"><label for="f-size">Taille de la vitrine</label>
+              <select id="f-size" name="taille" required="" aria-describedby="f-size-err">
+                <option value="">Choisir</option>
+                <option>Petite</option><option>Moyenne</option><option>Grande</option><option>Je ne sais pas</option>
+              </select>
+              <p class="field__error" id="f-size-err" hidden="">Choisissez une taille, ou « Je ne sais pas ».</p></div>
+            <div class="field"><label for="f-plan">Formule souhaitée</label>
+              <select id="f-plan" name="formule" required="" aria-describedby="f-plan-err">
+                <option value="">Choisir</option>
+                <option>Essentielle, un passage par mois</option><option>Confort, deux passages par mois</option><option>Premium, un passage par semaine</option><option>Passage unique</option>
+              </select>
+              <p class="field__error" id="f-plan-err" hidden="">Choisissez une formule.</p></div>
+            <div class="field"><label for="f-name">Votre nom</label>
+              <input id="f-name" name="nom" type="text" autocomplete="name" required="" aria-describedby="f-name-err">
+              <p class="field__error" id="f-name-err" hidden="">Écrivez votre nom.</p></div>
+            <div class="field"><label for="f-email">E-mail</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required="" aria-describedby="f-email-err">
+              <p class="field__error" id="f-email-err" hidden="">Écrivez une adresse e-mail avec un @.</p></div>
+            <div class="btn-row"><button class="btn btn--primary" type="submit">Demander un abonnement</button></div>
+            <p class="form__status" role="status" data-form-status=""></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer closing" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--photo">
+      <div class="section-head--split">
+        <div><h2 id="close-h">Des vitrines lavées chaque mois</h2><p class="t-lead">Petite vitrine&nbsp;: 120&nbsp;CHF par an, un passage par mois.</p></div>
+        <a class="btn btn--primary" href="#abonnement">Demander un abonnement<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"></path><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"></path></svg></a>
+      </div>
+      <div class="close__media"><img src="assets/img/photo-f14860860.webp" srcset="assets/img/photo-f14860860-500.webp 500w, assets/img/photo-f14860860-960.webp 960w, assets/img/photo-f14860860.webp 1280w" sizes="(max-width: 639px) 200vw, 100vw" width="1280" height="853" alt="La place du Temple à Carouge, ses platanes taillés et sa fontaine" loading="eager" decoding="async" data-source="stand-in" data-subject="place du Temple, Carouge"></div>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="#top"><span class="mark" data-mark="dots" aria-hidden="true"></span>Vitrabo</a>
+          <p class="footer__lede">Vitrines de commerce lavées par abonnement.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>Formules</h3><ul><li><a href="#formules">Prix</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Robot</h3><ul><li><a href="#robot">Sans eau au sol</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Questions</h3><ul><li><a href="#questions">Vitrines acceptées</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Quartiers</h3><ul><li><a href="#quartiers">Carouge et Genève</a></li><li><a href="#abonnement">Contact</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>© 2026 Vitrabo</span>
+        <div class="socials"></div>
+        <a class="credits" href="credits.html">Photos via Wikimedia Commons</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<nav class="actionbar" aria-label="Action rapide" data-bar="hidden" inert="">
+  <a class="btn btn--primary" href="#abonnement">Demander un abonnement</a>
+</nav>
+
+<script type="module" src="assets/system.js"></script>
+<script type="module" src="assets/motion/motion.js"></script>
+<script type="module" src="assets/layout/layout.js"></script>
+
+
+</body></html>

@@ -1,0 +1,8 @@
+{
+  "name": "Vitrabo",
+  "searched": true,
+  "queries": [
+    {"query": "\"Vitrabo\" nettoyage vitrines", "result": "aucune entreprise de ce nom dans les 10 premiers résultats"},
+    {"query": "\"Clairo\" nettoyage vitres Genève", "result": "écarté : nom d'une chanteuse connue"}
+  ]
+}

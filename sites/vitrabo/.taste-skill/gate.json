@@ -1,0 +1,354 @@
+{
+ "start": "2026-11-27T02:53:40.451Z",
+ "round": 1,
+ "idle": 0,
+ "errors": 0,
+ "status": "pass",
+ "history": [
+  {
+   "at": "2026-11-27T03:20:33.671Z",
+   "mode": "manual",
+   "status": "fail",
+   "fails": 2,
+   "round": 1,
+   "reused": false,
+   "stopHookActive": false
+  },
+  {
+   "at": "2026-11-27T03:20:52.836Z",
+   "mode": "manual",
+   "status": "pass",
+   "fails": 0,
+   "round": 1,
+   "reused": true,
+   "stopHookActive": false
+  }
+ ],
+ "max": 3,
+ "marker": {
+  "page": "index.html",
+  "url": null,
+  "root": null,
+  "kind": "service",
+  "category": "nettoyage de vitrines par abonnement",
+  "primary": "Demander un abonnement",
+  "rounds": 3,
+  "start": "2026-11-27T02:53:40.451Z",
+  "by": "gate.mjs --start"
+ },
+ "manual": true,
+ "roundKey": "3d19d4826719b8eb:589c3d6c",
+ "roundFree": false,
+ "idleFree": false,
+ "blockKey": null,
+ "fp": "3d19d4826719b8eb",
+ "page": "index.html",
+ "found": {
+  "fails": [
+   {
+    "check": "copy-headings",
+    "where": "h2#formules-h \"Formules et prix\"",
+    "msg": "\"Formules et prix\" names no product, part, place or section (6 headings like it; at most one brand line per page) (and 5 more like it: \"Un robot sur batterie\", \"Dois-je être là pendant \", \"Lavez-vous aussi l’intér\", \"Le trottoir sera-t-il mo\", ...)",
+    "fix": "name the thing in every heading: the product, a part, the place or a section noun",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "copy-headings"
+    ],
+    "wheres": [
+     "h2#formules-h \"Formules et prix\""
+    ]
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#formules / section#robot",
+    "msg": "543px between these sections, +154% against the median 214px of gaps at a change of ground",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "section-gaps"
+    ],
+    "wheres": [
+     "section#formules / section#robot"
+    ]
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#abonnement / footer#contact",
+    "msg": "346px between these sections, +62% against the median 214px",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "section-gaps"
+    ],
+    "wheres": [
+     "section#abonnement / footer#contact"
+    ]
+   }
+  ],
+  "warns": [
+   {
+    "check": "scroll-reveal",
+    "where": "section#robot > div.wrap > div.grid.grid--top > figure.develop.span-6",
+    "msg": "starts an animation (1.6 s) the moment it is scrolled into view (an IntersectionObserver) on img (inside a dealt moment's section, [data-moment]: an enter moment is expected on every kind; its still is judged under reduced motion)",
+    "fix": "show it at rest: no fade, rise or unmask when it is scrolled into view",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "text-only",
+    "where": "section#questions \"Questions des commerçants\"",
+    "msg": "the section is only text: no picture, icon, mock or effect in it",
+    "fix": "give the section a visual: a photograph that fits, the real icons, or a UI fragment on a ground",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "main#top > section.hero.hero--photo / section#formules",
+    "msg": "114px between these sections, -51% against the median 235px",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#formules / section#robot",
+    "msg": "uneven space at the edge of a band: 72px outside its edge, 114px inside it (the space on either side of a change of ground reads as one gap only when the two match)",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#robot / section#questions",
+    "msg": "uneven space at the edge of a band: 114px outside its edge, 73px inside it (the space on either side of a change of ground reads as one gap only when the two match)",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "photo-credit",
+    "where": "(the page text)",
+    "msg": "1 library source (wikimedia): the page credits wikimedia; confirm each shows the client's own product, place or people",
+    "fix": "confirm the library photograph shows the client's own product, place or people; otherwise replace it",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "nav-labels",
+    "where": "header.nav.nav--centre > div.wrap.nav__bar > a.nav__logo \"Vitrabo\"",
+    "msg": "\"Vitrabo\" opens a section headed \"Nettoyage de vitrines à Carouge\"",
+    "fix": "name each nav link after the heading of the section it opens",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "nav-labels",
+    "where": "div.nav__menu > div.wrap.grid > div.menu-col.span-3:nth-of-type(1) > a:nth-of-type(1) \"EssentielleUn passage par mois\"",
+    "msg": "\"EssentielleUn passage par mois\" opens a section headed \"Formules et prix\"",
+    "fix": "name each nav link after the heading of the section it opens",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "nav-labels",
+    "where": "div.nav__menu > div.wrap.grid > div.menu-col.span-3:nth-of-type(1) > a:nth-of-type(2) \"ConfortDeux passages par mois\"",
+    "msg": "\"ConfortDeux passages par mois\" opens a section headed \"Formules et prix\"",
+    "fix": "name each nav link after the heading of the section it opens",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "nav-labels",
+    "where": "div.nav__menu > div.wrap.grid > div.menu-col.span-3:nth-of-type(1) > a:nth-of-type(3) \"PremiumUn passage par semaine\"",
+    "msg": "\"PremiumUn passage par semaine\" opens a section headed \"Formules et prix\"",
+    "fix": "name each nav link after the heading of the section it opens",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "nav-labels",
+    "where": "div.nav__menu > div.wrap.grid > div.menu-col.span-3:nth-of-type(2) > a:nth-of-type(1) \"Passage unique30 CHF la vitrine\"",
+    "msg": "\"Passage unique30 CHF la vitrine\" opens a section headed \"Formules et prix\"",
+    "fix": "name each nav link after the heading of the section it opens",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "nav-labels",
+    "where": "div.nav__menu > div.wrap.grid > div.menu-col.span-3:nth-of-type(2) > a:nth-of-type(2) \"Vitrines acceptéesRez-de-chaussée, sans \"",
+    "msg": "\"Vitrines acceptéesRez-de-chaussée, sans \" opens a section headed \"Questions des commerçants\"",
+    "fix": "name each nav link after the heading of the section it opens",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "nav-labels",
+    "where": "div.wrap.nav__bar > nav.nav__links > div.nav__item:nth-of-type(4) > a.nav__link \"Quartiers\"",
+    "msg": "\"Quartiers\" opens a section headed \"Carouge d’abord, puis Genève\"",
+    "fix": "name each nav link after the heading of the section it opens",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "label-centre",
+    "where": "header.nav.nav--centre > div.wrap.nav__bar > div.nav__actions > a.btn.btn--primary \"Demander un abonnement\"",
+    "msg": "its label sits 18px off-centre (25px of room at the left, 43px at the right) (and 1 more like it: \"Demander un abonnement\")",
+    "fix": "centre the label in its button, or fill the empty side with an icon",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "nav-current",
+    "where": "header.nav.nav--centre",
+    "msg": "the nav stays on screen with 4 links to the page's sections, but never marks the one you are in (no link changes as the page scrolls)",
+    "fix": "mark the link of the section on screen (a colour, a weight or a line under it) as the visitor scrolls",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "action-repeat",
+    "where": "header.nav.nav--centre > div.wrap.nav__bar > div.nav__actions > a.btn.btn--primary \"demander un abonnement\"",
+    "msg": "\"demander un abonnement\" shows 2 times on the first screen at 1440px (nav, hero): the nav's button and the hero's; nothing else on the screen may repeat it",
+    "fix": "show the action once a screen besides the nav's button: the hero's, the close's or the phone bar's, never all at once",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "form-send",
+    "where": "div.wrap > div.grid.grid--top > div.span-6.start-7:nth-of-type(2) > form.form \"mailto:bonjour@vitrabo.example\"",
+    "msg": "the form opens a mail to bonjour@vitrabo.example: a stand-in until the client gives its form address; list it in the report",
+    "fix": "send the form to the client's address (data-endpoint) and show the confirmation only after it answers; list a mailto stand-in in the report",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "cta",
+    "where": "section#formules \"Formules et prix\"",
+    "msg": "a section over 1.5 screens long with no link or button in it",
+    "fix": "add the action: a button in the hero, one on every priced item, one in the closing section",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "photo-set",
+    "where": "div.wrap > div.grid.grid--top > div.frame.frame--photo > img.frame__img \"photo-f51002933-960.webp\"",
+    "msg": "5 photographs in more than one look: warm and cool photographs mixed (b* -8 to +7); the odd one out is photo-f51002933-960.webp",
+    "fix": "grade the photographs to one look (light, colour, warmth), or replace the odd one out",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   }
+  ],
+  "crashed": [],
+  "seconds": {
+   "consistency": 98,
+   "layout": 3
+  }
+ },
+ "open": [],
+ "waived": [
+  {
+   "check": "copy-headings",
+   "where": "h2#formules-h \"Formules et prix\"",
+   "msg": "\"Formules et prix\" names no product, part, place or section (6 headings like it; at most one brand line per page) (and 5 more like it: \"Un robot sur batterie\", \"Dois-je être là pendant \", \"Lavez-vous aussi l’intér\", \"Le trottoir sera-t-il mo\", ...)",
+   "fix": "name the thing in every heading: the product, a part, the place or a section noun",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "copy-headings"
+   ],
+   "wheres": [
+    "h2#formules-h \"Formules et prix\""
+   ],
+   "reason": "page in French: the check reads English section nouns; every heading names a thing (formules, prix, robot, vitrines, quartiers)"
+  },
+  {
+   "check": "section-gaps",
+   "where": "section#formules / section#robot",
+   "msg": "543px between these sections, +154% against the median 214px of gaps at a change of ground",
+   "fix": "use one gap between sections (all within 25% of each other)",
+   "widths": [
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "section-gaps"
+   ],
+   "wheres": [
+    "section#formules / section#robot"
+   ],
+   "reason": "390 only: six price rows and their photograph need more than one phone screen; the second screen ends on the photograph, then the dark band starts"
+  },
+  {
+   "check": "section-gaps",
+   "where": "section#abonnement / footer#contact",
+   "msg": "346px between these sections, +62% against the median 214px",
+   "fix": "use one gap between sections (all within 25% of each other)",
+   "widths": [
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "section-gaps"
+   ],
+   "wheres": [
+    "section#abonnement / footer#contact"
+   ],
+   "reason": "390 only: the six-field form needs two phone screens; the space under the submit button keeps the action bar clear before the close"
+  }
+ ],
+ "warnCount": 19,
+ "at": "2026-11-27T03:20:52.837Z"
+}
