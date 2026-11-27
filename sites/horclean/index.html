@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Horclean</title>
+<meta name="description" content="Horclean nettoie les vitrines des commerces par abonnement, à Genève et environs. Formule Confort dès 160 CHF par an.">
+<meta name="theme-color" content="#dcefff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231c6fd8'/%3E%3Cpath d='M9 22c5-2 9-8 14-12' stroke='%23fff' stroke-width='3' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600&display=swap">
+<style>
+/* Ciel doux : une seule page claire, bleu ciel vers blanc ; l'accueil reste fixe pendant qu'un chiffon essuie la vitre */
+:root {
+  color-scheme: light;
+  --sky: #dcefff; --white: #ffffff; --ink: #10324f; --muted: #48667f; --blue: #1c6fd8; --blue-soft: #eaf4ff; --line: #d3e5f6; --error: #b42318;
+  --font: "Sora", system-ui, sans-serif;
+  --shadow: 0 10px 34px rgb(28 111 216 / .12);
+  --gut: max(20px, env(safe-area-inset-left, 0px));
+  --gut-r: max(20px, env(safe-area-inset-right, 0px));
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--white); color: var(--ink); font: 16px/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
+.wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding-left: var(--gut); padding-right: var(--gut-r); }
+
+/* ---- en-tête : le menu en haut à gauche ---- */
+.top { position: fixed; inset: 0 0 auto; z-index: 30; padding-top: env(safe-area-inset-top, 0px); }
+.top .wrap { display: flex; align-items: center; gap: 14px; height: 72px; }
+.menu-btn { width: 46px; height: 46px; border-radius: 50%; border: 0; background: var(--white); box-shadow: var(--shadow); display: grid; place-items: center; cursor: pointer; color: var(--ink); }
+.menu-btn svg { width: 20px; height: 20px; }
+.logo { font-weight: 600; font-size: 20px; letter-spacing: -0.02em; text-decoration: none; }
+.menu { position: fixed; z-index: 40; top: calc(env(safe-area-inset-top, 0px) + 80px); left: var(--gut); width: min(320px, calc(100vw - 40px)); background: var(--white); border-radius: 22px; box-shadow: 0 20px 60px rgb(16 50 79 / .18); padding: 10px; display: grid; gap: 2px; }
+.menu[hidden] { display: none; }
+.menu p { margin: 8px 14px 4px; font-size: 13px; color: var(--muted); }
+.menu a { display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px; border-radius: 14px; text-decoration: none; font-weight: 400; }
+.menu a span { color: var(--muted); font-size: 14px; white-space: nowrap; }
+.menu a:hover { background: var(--blue-soft); }
+
+/* ---- l'accueil, épinglé pendant l'essuyage ---- */
+.wipe { position: relative; height: 270vh; background: linear-gradient(180deg, var(--sky) 0%, var(--white) 100%); }
+.stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.hero { position: absolute; inset: 0; display: grid; align-content: center; }
+.hero .wrap { display: grid; gap: 22px; }
+.where { margin: 0; font-size: 14px; color: var(--muted); }
+h1 { margin: 0; font-weight: 300; font-size: clamp(40px, 7.4vw, 92px); line-height: 1.02; letter-spacing: -0.035em; max-width: 12ch; text-wrap: balance; }
+.lead { margin: 0; font-size: clamp(17px, 1.8vw, 21px); color: var(--muted); max-width: 40ch; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 28px; border-radius: 999px; border: 0; font: 600 16px var(--font); text-decoration: none; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; }
+.btn--light { background: var(--white); color: var(--blue); box-shadow: var(--shadow); justify-self: start; }
+.btn--blue { background: var(--blue); color: var(--white); }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+.scroll-hint { position: absolute; left: 50%; bottom: max(24px, env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); font-size: 13px; color: var(--muted); display: grid; justify-items: center; gap: 6px; transition: opacity .3s; }
+.scroll-hint i { width: 1.5px; height: 28px; background: linear-gradient(var(--muted), transparent); display: block; }
+/* la vitre : saleté et chiffon par-dessus l'accueil */
+.glass { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+.glass canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cloth { position: absolute; left: 0; top: 0; width: clamp(130px, 17vw, 250px); opacity: 0; will-change: transform; filter: drop-shadow(0 16px 18px rgb(16 50 79 / .25)); }
+.cloth svg { display: block; width: 100%; height: auto; }
+@media (prefers-reduced-motion: reduce) { .glass { display: none; } .wipe { height: auto; } .stage { position: relative; } .scroll-hint { display: none; } }
+
+/* ---- abonnements ---- */
+section { padding-block: 96px; }
+.head { display: grid; gap: 12px; margin-bottom: 44px; max-width: 56ch; }
+h2 { margin: 0; font-weight: 300; font-size: clamp(32px, 4.4vw, 52px); line-height: 1.08; letter-spacing: -0.03em; text-wrap: balance; }
+.head p { margin: 0; color: var(--muted); font-size: 18px; }
+.plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 24px; }
+.plan { background: var(--white); border: 1px solid var(--line); border-radius: 30px; padding: 32px; display: grid; gap: 22px; align-content: start; scroll-margin-top: 96px; }
+.plan--premium { background: linear-gradient(180deg, var(--blue-soft), var(--white)); }
+.plan h3 { margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
+.plan .freq { margin: 4px 0 0; color: var(--muted); }
+.opts { display: grid; gap: 12px; }
+.opt { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; min-height: 64px; padding: 14px 20px; border-radius: 20px; border: 1.5px solid var(--line); background: var(--white); font: inherit; color: inherit; text-align: left; cursor: pointer; transition: border-color .15s, background .15s, transform .15s; }
+.opt:hover { border-color: var(--blue); transform: translateY(-2px); }
+.opt[aria-pressed="true"] { border-color: var(--blue); background: var(--blue-soft); }
+.opt .size { font-weight: 400; }
+.opt .price { font-weight: 600; color: var(--blue); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.opt .price small { font-weight: 400; color: var(--muted); font-size: 14px; }
+.once { margin-top: 24px; border: 1px solid var(--line); border-radius: 30px; padding: 24px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; scroll-margin-top: 96px; }
+.once h3 { margin: 0; font-size: 20px; font-weight: 600; }
+.once p { margin: 2px 0 0; color: var(--muted); }
+.once .opt { width: auto; min-height: 52px; }
+
+/* ---- contact ---- */
+.contact { background: linear-gradient(180deg, var(--white), var(--sky)); scroll-margin-top: 40px; }
+.card { background: var(--white); border-radius: 30px; box-shadow: var(--shadow); padding: clamp(24px, 5vw, 48px); max-width: 640px; display: grid; gap: 20px; }
+.choice { margin: 0; padding: 14px 18px; border-radius: 16px; background: var(--blue-soft); font-size: 15px; }
+.choice b { font-weight: 600; }
+.field { display: grid; gap: 8px; }
+.field label { font-size: 14px; font-weight: 600; }
+.field input { height: 56px; border-radius: 16px; border: 1.5px solid var(--line); padding: 0 18px; font: 16px var(--font); color: var(--ink); background: var(--white); }
+.field input:focus { border-color: var(--blue); outline: none; box-shadow: 0 0 0 4px rgb(28 111 216 / .15); }
+.field input[aria-invalid="true"] { border-color: var(--error); }
+.err { margin: 0; color: var(--error); font-size: 14px; }
+.status { margin: 0; font-size: 15px; }
+.small { margin: 0; color: var(--muted); font-size: 14px; }
+footer { padding-block: 32px calc(32px + env(safe-area-inset-bottom, 0px)); background: var(--sky); color: var(--muted); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Choisir un abonnement">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    </button>
+    <a class="logo" href="#top">Horclean</a>
+  </div>
+</header>
+<nav class="menu" id="menu" aria-label="Abonnements" hidden>
+  <p>Choisir un abonnement</p>
+  <a href="#confort">Confort <span>dès 160 CHF/an</span></a>
+  <a href="#premium">Premium <span>dès 315 CHF/an</span></a>
+  <a href="#unique">Passage unique <span>dès 30 CHF</span></a>
+  <a href="#contact">Me contacter</a>
+</nav>
+
+<main id="top">
+  <div class="wipe" id="wipe">
+    <div class="stage">
+      <div class="hero">
+        <div class="wrap">
+          <p class="where">Genève et environs</p>
+          <h1>Vos vitrines toujours propres.</h1>
+          <p class="lead">Un abonnement, et vous n’avez plus à y penser. Je passe régulièrement et je m’occupe de tout.</p>
+          <a class="btn btn--light" href="#abonnements">Choisir un abonnement</a>
+        </div>
+      </div>
+      <div class="glass" aria-hidden="true"><canvas id="dirt"></canvas><div class="cloth" id="cloth"></div></div>
+      <div class="scroll-hint" id="hint" aria-hidden="true">Faites défiler<i></i></div>
+    </div>
+  </div>
+
+  <section id="abonnements" aria-labelledby="abo-h">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="abo-h">Choisissez votre abonnement</h2>
+        <p>Je nettoie la face extérieure de vos vitrines au rythme choisi. Vous n’avez rien à demander ni à préparer.</p>
+      </div>
+      <div class="plans">
+        <article class="plan" id="confort" aria-labelledby="confort-h">
+          <div><h3 id="confort-h">Confort</h3><p class="freq">Deux passages par mois</p></div>
+          <div class="opts">
+            <button class="opt" type="button" aria-pressed="false" data-choice="Confort, vitrine moyenne, 160 CHF par an"><span class="size">Vitrine moyenne</span><span class="price">160 CHF <small>/ an</small></span></button>
+            <button class="opt" type="button" aria-pressed="false" data-choice="Confort, grande vitrine, 220 CHF par an"><span class="size">Grande vitrine</span><span class="price">220 CHF <small>/ an</small></span></button>
+          </div>
+        </article>
+        <article class="plan plan--premium" id="premium" aria-labelledby="premium-h">
+          <div><h3 id="premium-h">Premium</h3><p class="freq">Un passage par semaine</p></div>
+          <div class="opts">
+            <button class="opt" type="button" aria-pressed="false" data-choice="Premium, vitrine moyenne, 315 CHF par an"><span class="size">Vitrine moyenne</span><span class="price">315 CHF <small>/ an</small></span></button>
+            <button class="opt" type="button" aria-pressed="false" data-choice="Premium, grande vitrine, 435 CHF par an"><span class="size">Grande vitrine</span><span class="price">435 CHF <small>/ an</small></span></button>
+          </div>
+        </article>
+      </div>
+      <div class="once" id="unique">
+        <div><h3>Passage unique</h3><p>Sans abonnement, dès 30 CHF, sur devis.</p></div>
+        <button class="opt" type="button" aria-pressed="false" data-choice="Passage unique, sur devis (dès 30 CHF)"><span class="size">Demander un devis</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="contact-h">
+    <div class="wrap">
+      <form class="card" id="form" novalidate>
+        <h2 id="contact-h">Je vous écris directement</h2>
+        <p class="choice" id="choice">Choisissez d’abord un abonnement plus haut.</p>
+        <div class="field">
+          <label for="reach">Votre e-mail ou votre numéro de téléphone</label>
+          <input id="reach" name="contact" type="text" autocomplete="email" inputmode="email" aria-describedby="reach-err" required>
+          <p class="err" id="reach-err" hidden></p>
+        </div>
+        <button class="btn btn--blue" type="submit">Être recontacté</button>
+        <p class="status" id="status" role="status"></p>
+        <p class="small">Je vous écris ou vous appelle pour convenir du premier passage.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span>© 2026 Horclean</span><span>Nettoyage de vitrines, Genève et environs</span></div>
+</footer>
+
+<script>
+/* ---------- menu en haut à gauche ---------- */
+const menuBtn = document.querySelector(".menu-btn"), menu = document.getElementById("menu");
+const setMenu = open => { menu.hidden = !open; menuBtn.setAttribute("aria-expanded", String(open)); };
+menuBtn.addEventListener("click", e => { e.stopPropagation(); setMenu(menu.hidden); });
+menu.addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });
+document.addEventListener("click", e => { if (!menu.hidden && !menu.contains(e.target)) setMenu(false); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !menu.hidden) { setMenu(false); menuBtn.focus(); } });
+
+/* ---------- choix de l'abonnement puis contact ---------- */
+// Adresse du service de formulaire (Formspree, etc.) à renseigner quand elle existe : les demandes y seront envoyées.
+const FORM_ENDPOINT = "";
+let chosen = "";
+const choiceEl = document.getElementById("choice");
+document.querySelectorAll(".opt").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".opt").forEach(o => o.setAttribute("aria-pressed", String(o === b)));
+  chosen = b.dataset.choice;
+  choiceEl.innerHTML = "Votre choix : <b></b>"; choiceEl.querySelector("b").textContent = chosen;
+  document.getElementById("contact").scrollIntoView({ block: "start" });
+  setTimeout(() => document.getElementById("reach").focus({ preventScroll: true }), 500);
+}));
+const form = document.getElementById("form"), input = document.getElementById("reach"), err = document.getElementById("reach-err"), status = document.getElementById("status");
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  const v = input.value.trim();
+  const isMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), isPhone = (v.replace(/[^\d]/g, "").length >= 9) && /^[+\d\s().-]+$/.test(v);
+  let msg = "";
+  if (!chosen) msg = "Choisissez d’abord un abonnement plus haut.";
+  else if (!isMail && !isPhone) msg = "Écrivez un e-mail (avec un @) ou un numéro de téléphone.";
+  if (msg) { err.textContent = msg; err.hidden = false; input.setAttribute("aria-invalid", "true"); input.focus(); return; }
+  err.hidden = true; input.removeAttribute("aria-invalid");
+  if (!FORM_ENDPOINT) { status.textContent = "Aperçu : l’envoi sera branché dès que l’adresse de réception sera choisie."; return; }
+  status.textContent = "Envoi…";
+  try {
+    const r = await fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ abonnement: chosen, contact: v }) });
+    status.textContent = r.ok ? "C’est noté. Je vous écris très vite." : "L’envoi n’a pas marché. Réessayez dans un instant.";
+  } catch { status.textContent = "L’envoi n’a pas marché. Vérifiez votre connexion et réessayez."; }
+});
+
+/* ---------- le chiffon qui essuie la vitre ---------- */
+(() => {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const wipe = document.getElementById("wipe"), canvas = document.getElementById("dirt"), ctx = canvas.getContext("2d");
+  const cloth = document.getElementById("cloth"), hint = document.getElementById("hint");
+  cloth.innerHTML = `<svg viewBox="0 0 120 110" aria-hidden="true">
+    <path d="M14 18 C30 8 58 14 76 8 C92 3 108 10 112 22 C118 40 110 58 114 76 C117 92 104 104 88 102 C66 99 46 106 28 100 C12 95 6 82 9 66 C12 50 4 32 14 18Z" fill="#8cc4f6"/>
+    <path d="M20 26 C40 34 62 22 84 30 C96 34 104 30 108 26" fill="none" stroke="#d6ecff" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+    <path d="M16 56 C36 48 58 62 82 54 C94 50 104 56 110 60" fill="none" stroke="#2f78c8" stroke-width="3.5" stroke-linecap="round" opacity=".45"/>
+    <path d="M18 84 C38 78 60 90 86 82 C96 79 104 84 108 88" fill="none" stroke="#d6ecff" stroke-width="3" stroke-linecap="round" opacity=".75"/>
+    <path d="M14 18 C30 8 58 14 76 8 C92 3 108 10 112 22" fill="none" stroke="#2f78c8" stroke-width="2" stroke-dasharray="3 4" opacity=".5"/></svg>`;
+  const S = t => t * t * (3 - 2 * t), clamp = (v, a, b) => Math.min(b, Math.max(a, v)), lerp = (a, b, t) => a + (b - a) * t, TAU = Math.PI * 2;
+  const WIPE_END = .8;      // part du défilement pour essuyer ; ensuite le chiffon s'en va
+  let W = 0, H = 0, dpr = 1, rows = 4, rad = 100, dirt = null;
+
+  function rng(seed) { return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+  function makeDirt() {
+    const c = document.createElement("canvas"); c.width = canvas.width; c.height = canvas.height;
+    const g = c.getContext("2d"); g.scale(dpr, dpr); const r = rng(4321);
+    g.fillStyle = "rgba(196,188,170,.16)"; g.fillRect(0, 0, W, H);
+    const n = Math.round(W * H / 26000);
+    for (let i = 0; i < n; i++) { const x = r() * W, y = r() * H, s = (.05 + r() * .13) * Math.max(W, H);
+      const gr = g.createRadialGradient(x, y, 0, x, y, s); gr.addColorStop(0, `rgba(${115 + r() * 25 | 0},${104 + r() * 20 | 0},${84 + r() * 18 | 0},${.1 + r() * .14})`); gr.addColorStop(1, "rgba(120,110,90,0)");
+      g.fillStyle = gr; g.beginPath(); g.arc(x, y, s, 0, TAU); g.fill(); }
+    g.lineCap = "round";
+    for (let i = 0; i < n * 1.6; i++) { const x = r() * W, y = r() * H * .85, len = (.05 + r() * .18) * H;
+      g.strokeStyle = `rgba(120,112,95,${.08 + r() * .1})`; g.lineWidth = 1 + r() * 2.5;
+      g.beginPath(); g.moveTo(x, y); g.bezierCurveTo(x + r() * 6 - 3, y + len * .4, x + r() * 8 - 4, y + len * .7, x + r() * 6 - 3, y + len); g.stroke(); }
+    for (let i = 0; i < n * 6; i++) { g.fillStyle = `rgba(90,82,70,${.15 + r() * .25})`; g.beginPath(); g.arc(r() * W, r() * H, .6 + r() * 2, 0, TAU); g.fill(); }
+    return c;
+  }
+  // le geste du laveur : allers-retours horizontaux, de bord à bord, de haut en bas
+  function path(t) {
+    const r = Math.min(rows - 1, Math.floor(t * rows)), f = S(t * rows - r);
+    const x0 = rad * .35 / W, x1 = 1 - x0;
+    return { x: lerp(x0, x1, r % 2 ? 1 - f : f), y: lerp(rad * .5 / H, 1 - rad * .5 / H, (r + f * .15) / (rows - 1 + .15)) };
+  }
+  function draw() {
+    const span = wipe.offsetHeight - innerHeight;
+    const p = span > 0 ? clamp((scrollY - wipe.offsetTop) / span, 0, 1) : 1;
+    const tw = Math.min(1, p / WIPE_END), e = S(clamp((p - WIPE_END) / (1 - WIPE_END), 0, 1));
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalCompositeOperation = "source-over"; ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // la vitre est entièrement propre quand le chiffon a fini sa dernière ligne : plus aucune trace, même dans les coins
+    const left = 1 - S(clamp((tw - .9) / .1, 0, 1));
+    if (left > 0) {
+      ctx.globalAlpha = left; ctx.drawImage(dirt, 0, 0); ctx.globalAlpha = 1;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.globalCompositeOperation = "destination-out";
+      const steps = Math.ceil(tw * rows * 70);
+      for (let k = 0; k <= steps; k++) {
+        const q = path(tw * k / Math.max(1, steps)), x = q.x * W, y = q.y * H;
+        const gr = ctx.createRadialGradient(x, y, rad * .45, x, y, rad);
+        gr.addColorStop(0, "rgba(0,0,0,.95)"); gr.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(x, y, rad, 0, TAU); ctx.fill();
+      }
+    }
+    // le chiffon : il suit le geste, puis glisse hors de la vitre vers la droite
+    const here = path(tw), prev = path(Math.max(0, tw - .01));
+    const lean = clamp(Math.atan2(here.y - prev.y, here.x - prev.x) * 8, -18, 18);
+    const x = here.x + e * .75, y = here.y + e * .08;
+    const cw = cloth.offsetWidth, ch = cloth.offsetHeight;
+    cloth.style.opacity = p <= .002 || e >= 1 ? 0 : 1;
+    cloth.style.transform = `translate(${x * W - cw / 2}px, ${y * H - ch / 2}px) rotate(${lean + e * 40}deg)`;
+    hint.style.opacity = p > .03 ? 0 : 1;
+  }
+  function size() {
+    dpr = Math.min(2, devicePixelRatio || 1); W = canvas.clientWidth; H = canvas.clientHeight;
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    rad = cloth.offsetWidth * .8;
+    rows = Math.max(3, Math.ceil((H - rad) / (rad * 1.25)) + 1);   // assez de lignes pour que les passages se chevauchent
+    dirt = makeDirt(); draw();
+  }
+  let raf = 0;
+  addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(draw); }, { passive: true });
+  new ResizeObserver(size).observe(canvas);
+  size();
+})();
+</script>
+</body>
+</html>

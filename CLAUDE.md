@@ -33,5 +33,10 @@ l'en-tête (taille RIFF = longueur du fichier - 8, en coupant après le bloc VP8
 
 ## Sites
 
-- `sites/vitrabo/` : nettoyage de vitrines par abonnement à Carouge / Genève (première version,
-  modifications à venir de la part de l'utilisateur).
+- `sites/horclean/` : LE site actuel de l'utilisateur (nettoyage de vitrines par abonnement, Genève
+  et environs). Une seule page, style « Ciel doux » (blanc et bleu, police Sora), chiffon qui essuie
+  la vitre au défilement (geste n° 1 « laveur pro », vitre 100 % propre à la fin). Ne jamais parler
+  de robot ni de la méthode. Prix : Confort (2 passages/mois) 160 CHF/an moyenne, 220 CHF/an grande ;
+  Premium (1 passage/semaine) 315 / 435 CHF/an ; passage unique dès 30 CHF, sur devis.
+  `directions.html` et `chiffon.html` sont les pages de propositions.
+- `sites/vitrabo/` : premier essai abandonné (même activité), gardé pour mémoire.
