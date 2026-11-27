@@ -42,7 +42,7 @@ a { color: inherit; }
 .menu a:hover { background: var(--blue-soft); }
 
 /* ---- l'accueil, épinglé pendant l'essuyage ---- */
-.wipe { position: relative; height: 270vh; background: linear-gradient(180deg, var(--sky) 0%, var(--white) 100%); }
+.wipe { position: relative; height: 360vh; background: linear-gradient(180deg, var(--sky) 0%, var(--white) 100%); }
 .stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
 .hero { position: absolute; inset: 0; display: grid; align-content: center; }
 .hero .wrap { display: grid; gap: 22px; }
@@ -61,7 +61,7 @@ h1 { margin: 0; font-weight: 300; font-size: clamp(40px, 7.4vw, 92px); line-heig
 .glass canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .cloth { position: absolute; left: 0; top: 0; width: clamp(130px, 17vw, 250px); opacity: 0; will-change: transform; filter: drop-shadow(0 16px 18px rgb(16 50 79 / .25)); }
 .cloth svg { display: block; width: 100%; height: auto; }
-@media (prefers-reduced-motion: reduce) { .glass { display: none; } .wipe { height: auto; } .stage { position: relative; } .scroll-hint { display: none; } }
+
 
 /* ---- abonnements ---- */
 section { padding-block: 96px; }
@@ -228,7 +228,7 @@ form.addEventListener("submit", async e => {
 
 /* ---------- le chiffon qui essuie la vitre ---------- */
 (() => {
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;   // pas de petit balancement d'attente dans ce cas
   const wipe = document.getElementById("wipe"), canvas = document.getElementById("dirt"), ctx = canvas.getContext("2d");
   const cloth = document.getElementById("cloth"), hint = document.getElementById("hint");
   cloth.innerHTML = `<svg viewBox="0 0 120 110" aria-hidden="true">
@@ -257,15 +257,16 @@ form.addEventListener("submit", async e => {
     for (let i = 0; i < n * 6; i++) { g.fillStyle = `rgba(90,82,70,${.15 + r() * .25})`; g.beginPath(); g.arc(r() * W, r() * H, .6 + r() * 2, 0, TAU); g.fill(); }
     return c;
   }
-  // le geste du laveur : allers-retours horizontaux, de bord à bord, de haut en bas
+  // le geste du laveur : allers-retours horizontaux, de bord à bord, de haut en bas (il part du coin en haut à droite)
   function path(t) {
     const r = Math.min(rows - 1, Math.floor(t * rows)), f = S(t * rows - r);
     const x0 = rad * .35 / W, x1 = 1 - x0;
-    return { x: lerp(x0, x1, r % 2 ? 1 - f : f), y: lerp(rad * .5 / H, 1 - rad * .5 / H, (r + f * .15) / (rows - 1 + .15)) };
+    return { x: lerp(x0, x1, r % 2 ? f : 1 - f), y: lerp(rad * .5 / H, 1 - rad * .5 / H, (r + f * .15) / (rows - 1 + .15)) };
   }
   function draw() {
-    const span = wipe.offsetHeight - innerHeight;
-    const p = span > 0 ? clamp((scrollY - wipe.offsetTop) / span, 0, 1) : 1;
+    // la position se lit sur l'élément lui-même : ça marche quel que soit le conteneur qui défile
+    const box = wipe.getBoundingClientRect(), span = box.height - H;
+    const p = span > 0 ? clamp(-box.top / span, 0, 1) : 1;
     const tw = Math.min(1, p / WIPE_END), e = S(clamp((p - WIPE_END) / (1 - WIPE_END), 0, 1));
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalCompositeOperation = "source-over"; ctx.clearRect(0, 0, canvas.width, canvas.height);
     // la vitre est entièrement propre quand le chiffon a fini sa dernière ligne : plus aucune trace, même dans les coins
@@ -284,10 +285,14 @@ form.addEventListener("submit", async e => {
     // le chiffon : il suit le geste, puis glisse hors de la vitre vers la droite
     const here = path(tw), prev = path(Math.max(0, tw - .01));
     const lean = clamp(Math.atan2(here.y - prev.y, here.x - prev.x) * 8, -18, 18);
-    const x = here.x + e * .75, y = here.y + e * .08;
+    // avant le premier défilement, le chiffon attend en haut à gauche et se balance doucement
+    const wait = 1 - S(clamp(p / .04, 0, 1));                       // au repos : bien visible, en entier
+    const idle = calm ? 0 : wait, now = performance.now() / 1000;
+    const x = here.x + (rows % 2 ? e * .75 : -e * .75) + idle * .012 * Math.sin(now * 2.2), y = here.y + e * .08 + idle * .01 * Math.sin(now * 4.4);
     const cw = cloth.offsetWidth, ch = cloth.offsetHeight;
-    cloth.style.opacity = p <= .002 || e >= 1 ? 0 : 1;
-    cloth.style.transform = `translate(${x * W - cw / 2}px, ${y * H - ch / 2}px) rotate(${lean + e * 40}deg)`;
+    cloth.style.opacity = e >= 1 ? 0 : 1;
+    cloth.style.transform = `translate(${x * W - cw / 2 - wait * cw * .75}px, ${y * H - ch / 2 + wait * (ch * .6 + 72)}px) rotate(${lean + (rows % 2 ? e * 40 : -e * 40) + idle * 6 * Math.sin(now * 2.2)}deg)`;
+    return p;
     hint.style.opacity = p > .03 ? 0 : 1;
   }
   function size() {
@@ -297,8 +302,16 @@ form.addEventListener("submit", async e => {
     rows = Math.max(3, Math.ceil((H - rad) / (rad * 1.25)) + 1);   // assez de lignes pour que les passages se chevauchent
     dirt = makeDirt(); draw();
   }
-  let raf = 0;
-  addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(draw); }, { passive: true });
+  // une boucle légère : elle redessine quand la page a bougé (ou pendant l'attente), seulement si l'accueil est à l'écran
+  let last = null;
+  (function tick() {
+    const box = wipe.getBoundingClientRect();
+    if (dirt && box.bottom > 0 && box.top < H + 1) {
+      const p = clamp(-box.top / Math.max(1, box.height - H), 0, 1);
+      if (p !== last || (!calm && p < .02)) { draw(); last = p; }
+    }
+    requestAnimationFrame(tick);
+  })();
   new ResizeObserver(size).observe(canvas);
   size();
 })();
