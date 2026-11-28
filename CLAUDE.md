@@ -43,5 +43,8 @@ l'en-tête (taille RIFF = longueur du fichier - 8, en coupant après le bloc VP8
   En ligne : https://horclean.pages.dev (Cloudflare Pages, projet « horclean », compte 75accf69319d29822753587d540c97c4).
   Publication automatique par `.github/workflows/horclean.yml` à chaque push touchant `sites/horclean/`
   (secret GitHub CLOUDFLARE_API_TOKEN). Seuls index.html et share.jpg sont publiés.
-  Formulaire : FormSubmit vers l'adresse pro de l'utilisateur (`FORM_TO` dans index.html) ; activation FormSubmit à confirmer.
+  Formulaire : FormSubmit, alias secret dans `FORM_TO` (index.html), actif et testé ; les demandes arrivent sur l'adresse pro +horclean.
+  Search Console : validé (fichier google*.html), sitemap.xml et robots.txt en ligne. SEO : titre, description, données structurées.
+  À FAIRE : fiche Google Business créée mais NON vérifiée ; l'utilisateur doit faire la vidéo de vérification une fois à Genève
+  avec son matériel (« Submit a Business Video »). Adresse à masquer (zone desservie : Genève). Ne pas utiliser la vérification par e-mail @horclean.pages.dev (impossible).
 - `sites/vitrabo/` : premier essai abandonné (même activité), gardé pour mémoire.
