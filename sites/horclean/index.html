@@ -243,7 +243,7 @@ document.addEventListener("scroll", solid, { passive: true, capture: true }); ad
 /* ---------- choix de l'abonnement puis contact ---------- */
 // Les demandes partent par e-mail via FormSubmit : mettre ici l'adresse qui doit les recevoir
 // (ou l'alias secret que FormSubmit donne après la première activation, pour ne pas afficher l'e-mail dans le code).
-const FORM_TO = "";
+const FORM_TO = "elouan17michel@gmail.com";
 const FORM_ENDPOINT = FORM_TO ? "https://formsubmit.co/ajax/" + FORM_TO : "";
 let chosen = "";
 const choiceEl = document.getElementById("choice");
