@@ -109,6 +109,8 @@ h2 { margin: 0; font-weight: 300; font-size: clamp(32px, 4.4vw, 52px); line-heig
 .sizes-note { margin: 20px 0 0; color: var(--muted); font-size: 15px; }
 .opt .price { font-weight: 600; color: var(--blue); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .opt .price small { font-weight: 400; color: var(--muted); font-size: 14px; }
+.opt .price { display: grid; justify-items: end; gap: 2px; }
+.opt .price em { font-style: normal; font-weight: 400; color: var(--muted); font-size: 13px; }
 .once { margin-top: 24px; border: 1px solid var(--line); border-radius: 30px; padding: 24px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; scroll-margin-top: 96px; }
 .once h3 { margin: 0; font-size: 20px; font-weight: 600; }
 .once p { margin: 2px 0 0; color: var(--muted); }
@@ -188,15 +190,15 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <article class="plan" id="confort" aria-labelledby="confort-h">
           <div><h3 id="confort-h">Confort</h3><p class="freq">Deux passages par mois</p></div>
           <div class="opts">
-            <button class="opt" type="button" aria-pressed="false" data-choice="Confort, vitrine moyenne, 160 CHF par an"><span class="size">Vitrine moyenne<small>jusqu’à 7 m²</small></span><span class="price">160 CHF <small>/ an</small></span></button>
-            <button class="opt" type="button" aria-pressed="false" data-choice="Confort, grande vitrine, 220 CHF par an"><span class="size">Grande vitrine<small>plus de 7 m²</small></span><span class="price">220 CHF <small>/ an</small></span></button>
+            <button class="opt" type="button" aria-pressed="false" data-choice="Confort, vitrine moyenne, 160 CHF par an"><span class="size">Vitrine moyenne<small>jusqu’à 7 m²</small></span><span class="price"><span>160 CHF <small>/ an</small></span><em>soit 13.35 CHF / mois</em></span></button>
+            <button class="opt" type="button" aria-pressed="false" data-choice="Confort, grande vitrine, 220 CHF par an"><span class="size">Grande vitrine<small>plus de 7 m²</small></span><span class="price"><span>220 CHF <small>/ an</small></span><em>soit 18.35 CHF / mois</em></span></button>
           </div>
         </article>
         <article class="plan plan--premium" id="premium" aria-labelledby="premium-h">
           <div><h3 id="premium-h">Premium</h3><p class="freq">Un passage par semaine</p></div>
           <div class="opts">
-            <button class="opt" type="button" aria-pressed="false" data-choice="Premium, vitrine moyenne, 315 CHF par an"><span class="size">Vitrine moyenne<small>jusqu’à 7 m²</small></span><span class="price">315 CHF <small>/ an</small></span></button>
-            <button class="opt" type="button" aria-pressed="false" data-choice="Premium, grande vitrine, 435 CHF par an"><span class="size">Grande vitrine<small>plus de 7 m²</small></span><span class="price">435 CHF <small>/ an</small></span></button>
+            <button class="opt" type="button" aria-pressed="false" data-choice="Premium, vitrine moyenne, 315 CHF par an"><span class="size">Vitrine moyenne<small>jusqu’à 7 m²</small></span><span class="price"><span>315 CHF <small>/ an</small></span><em>soit 26.25 CHF / mois</em></span></button>
+            <button class="opt" type="button" aria-pressed="false" data-choice="Premium, grande vitrine, 435 CHF par an"><span class="size">Grande vitrine<small>plus de 7 m²</small></span><span class="price"><span>435 CHF <small>/ an</small></span><em>soit 36.25 CHF / mois</em></span></button>
           </div>
         </article>
       </div>
