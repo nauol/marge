@@ -83,7 +83,9 @@ h2 { margin: 0; font-weight: 300; font-size: clamp(32px, 4.4vw, 52px); line-heig
 .opt { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; min-height: 64px; padding: 14px 20px; border-radius: 20px; border: 1.5px solid var(--line); background: var(--white); font: inherit; color: inherit; text-align: left; cursor: pointer; transition: border-color .15s, background .15s, transform .15s; }
 .opt:hover { border-color: var(--blue); transform: translateY(-2px); }
 .opt[aria-pressed="true"] { border-color: var(--blue); background: var(--blue-soft); }
-.opt .size { font-weight: 400; }
+.opt .size { font-weight: 400; display: grid; gap: 2px; }
+.opt .size small { color: var(--muted); font-size: 14px; }
+.sizes-note { margin: 20px 0 0; color: var(--muted); font-size: 15px; }
 .opt .price { font-weight: 600; color: var(--blue); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .opt .price small { font-weight: 400; color: var(--muted); font-size: 14px; }
 .once { margin-top: 24px; border: 1px solid var(--line); border-radius: 30px; padding: 24px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; scroll-margin-top: 96px; }
@@ -165,18 +167,19 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <article class="plan" id="confort" aria-labelledby="confort-h">
           <div><h3 id="confort-h">Confort</h3><p class="freq">Deux passages par mois</p></div>
           <div class="opts">
-            <button class="opt" type="button" aria-pressed="false" data-choice="Confort, vitrine moyenne, 160 CHF par an"><span class="size">Vitrine moyenne</span><span class="price">160 CHF <small>/ an</small></span></button>
-            <button class="opt" type="button" aria-pressed="false" data-choice="Confort, grande vitrine, 220 CHF par an"><span class="size">Grande vitrine</span><span class="price">220 CHF <small>/ an</small></span></button>
+            <button class="opt" type="button" aria-pressed="false" data-choice="Confort, vitrine moyenne, 160 CHF par an"><span class="size">Vitrine moyenne<small>jusqu’à 7 m²</small></span><span class="price">160 CHF <small>/ an</small></span></button>
+            <button class="opt" type="button" aria-pressed="false" data-choice="Confort, grande vitrine, 220 CHF par an"><span class="size">Grande vitrine<small>plus de 7 m²</small></span><span class="price">220 CHF <small>/ an</small></span></button>
           </div>
         </article>
         <article class="plan plan--premium" id="premium" aria-labelledby="premium-h">
           <div><h3 id="premium-h">Premium</h3><p class="freq">Un passage par semaine</p></div>
           <div class="opts">
-            <button class="opt" type="button" aria-pressed="false" data-choice="Premium, vitrine moyenne, 315 CHF par an"><span class="size">Vitrine moyenne</span><span class="price">315 CHF <small>/ an</small></span></button>
-            <button class="opt" type="button" aria-pressed="false" data-choice="Premium, grande vitrine, 435 CHF par an"><span class="size">Grande vitrine</span><span class="price">435 CHF <small>/ an</small></span></button>
+            <button class="opt" type="button" aria-pressed="false" data-choice="Premium, vitrine moyenne, 315 CHF par an"><span class="size">Vitrine moyenne<small>jusqu’à 7 m²</small></span><span class="price">315 CHF <small>/ an</small></span></button>
+            <button class="opt" type="button" aria-pressed="false" data-choice="Premium, grande vitrine, 435 CHF par an"><span class="size">Grande vitrine<small>plus de 7 m²</small></span><span class="price">435 CHF <small>/ an</small></span></button>
           </div>
         </article>
       </div>
+      <p class="sizes-note">Surface totale de vos vitres (largeur × hauteur). Pas sûr de la taille&nbsp;? Aucun souci, je vérifie lors du premier passage.</p>
       <div class="once" id="unique">
         <div><h3>Passage unique</h3><p>Sans abonnement, dès 30 CHF, sur devis.</p></div>
         <button class="opt" type="button" aria-pressed="false" data-choice="Passage unique, sur devis (dès 30 CHF)"><span class="size">Demander un devis</span></button>
