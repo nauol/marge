@@ -38,6 +38,7 @@ l'en-tête (taille RIFF = longueur du fichier - 8, en coupant après le bloc VP8
   la vitre au défilement (geste n° 1 « laveur pro », vitre 100 % propre à la fin). Ne jamais parler
   de robot ni de la méthode. Prix : Confort (2 passages/mois) 160 CHF/an moyenne, 220 CHF/an grande ;
   Premium (1 passage/semaine) 315 / 435 CHF/an ; passage unique dès 30 CHF, sur devis.
+  Tailles : moyenne = jusqu'à 7 m² de vitres (surface totale), grande = plus de 7 m² ; vérif. au 1er passage.
   `directions.html` et `chiffon.html` sont les pages de propositions.
   En ligne : https://horclean.pages.dev (Cloudflare Pages, projet « horclean », compte 75accf69319d29822753587d540c97c4).
   Publication automatique par `.github/workflows/horclean.yml` à chaque push touchant `sites/horclean/`
