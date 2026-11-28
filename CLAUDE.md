@@ -22,6 +22,28 @@ Avant d'écrire la moindre page d'un nouveau site, toujours :
 Ne jamais sauter cette étape, même si un skill (comme `design-taste-frontend`) dit de « tirer au sort »
 la palette ou la mise en page : le choix de l'utilisateur passe avant.
 
+## Le style de site que l'utilisateur aime (modèle : Horclean)
+
+Horclean (`sites/horclean/`) est LA référence pour tous les futurs sites. Reprendre cet esprit :
+
+- **Simple et épuré** : une seule page, peu de sections (accueil, offres/prix, contact), beaucoup d'air,
+  2 couleurs maximum (ex. blanc + une couleur), une seule police élégante. Pas de surcharge.
+- **Une animation « signature » liée au métier**, pilotée par le défilement : c'est elle qui fait l'effet
+  « waouh » (pour Horclean : un chiffon qui essuie la vitre en descendant, puis s'en va, vitre 100 % propre).
+  Proposer plusieurs variantes de cette animation (vignettes animées) et laisser l'utilisateur choisir.
+- **Écrit à la main, léger** (HTML/CSS/JS dans un seul fichier), pas le gros kit de `design-taste-frontend`
+  ni de photos imposées. Utiliser le skill seulement pour s'inspirer, pas pour imposer ses règles.
+- **Textes courts et clairs**, en français simple (penser aux gens qui parlent mal français : éviter les
+  mots ambigus). Ne jamais inventer de faits (prix, durées, assurances, avis) : demander.
+- **Contact simple** : l'utilisateur choisit une offre (elle se met juste en surbrillance, AUCUN défilement
+  automatique), puis descend lui-même au formulaire « e-mail ou téléphone ». Envoi via FormSubmit.
+- **Menu ☰ en haut à gauche** qui mène aux offres.
+- **Gratuit** : hébergement Cloudflare Pages (publication auto par GitHub Actions), pas de domaine payant.
+- **Finitions incluses** : image de partage WhatsApp liée au thème, petite mention « Confidentialité »
+  tout en bas, titre/description/mots-clés pour Google, sitemap.xml + robots.txt.
+- **Méthode** : directions visuelles d'abord (règle ci-dessus), puis variantes de l'animation, puis le site ;
+  montrer un aperçu (artifact) à chaque étape et ajuster petit à petit selon ses retours.
+
 ## Skills installés
 
 - `design-taste-frontend` (taste-skill) : concevoir des sites qui ne font pas « générés par IA ».
