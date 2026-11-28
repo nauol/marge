@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Préparer les fichiers publics
-        run: mkdir dist && cp sites/horclean/index.html sites/horclean/share.jpg dist/
+        run: mkdir dist && cp sites/horclean/index.html sites/horclean/share.jpg sites/horclean/google*.html dist/
       - name: Envoyer sur Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
